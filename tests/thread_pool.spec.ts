@@ -10,7 +10,7 @@ type ready_task = {
 
 describe('Thread pool', ()=>{
   test('Creates many thread. Some ok, some fail.', (done)=>{
-    const pool = new ThreadPool<SimpleWorker>(4, SimpleWorker);
+    const pool = new ThreadPool(4, SimpleWorker);
     const number_of_tasks = 30;
     const ready: ready_task[] = [];
     const success = "ok";
@@ -40,7 +40,7 @@ describe('Thread pool', ()=>{
   });
 
   test('Create many thread in Worker threads', (done) => {
-    const pool = new ThreadPool<ThreadSimpleWorker>(4, ThreadSimpleWorker);
+    const pool = new ThreadPool(4, ThreadSimpleWorker);
     const number_of_tasks = 30;
     const ready: ready_task[] = [];
     const success = "ok";

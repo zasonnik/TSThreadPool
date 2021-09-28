@@ -11,14 +11,14 @@ type PoolAwaiting = {
   payload: any
 }
 
-class ThreadPool<T extends PoolWorker> {
+class ThreadPool {
   private pool: PoolElement[];
   private awaiting: PoolAwaiting[];
-  private createWorker: ()=>T;
-  constructor(public readonly size: number, w: new() => T){
+  private createWorker: ()=>PoolWorker;
+  constructor(public readonly size: number, workerClass: new() => PoolWorker){
     this.pool = [];
     this.awaiting = [];
-    this.createWorker = () => new w; //Sory for this. Typescript generics makes me cry :'(
+    this.createWorker = () => new workerClass;
   }
   stop(){
     this.pool.forEach(e => e.worker.free());
