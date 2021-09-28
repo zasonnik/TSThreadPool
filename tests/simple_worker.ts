@@ -12,4 +12,8 @@ export class SimpleWorker extends PoolWorker {
       }, 100 + (data % 2)*100);
     });
   }
+
+  free(){
+    //Trivial
+  }
 }

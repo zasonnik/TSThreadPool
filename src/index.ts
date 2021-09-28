@@ -1,4 +1,5 @@
 import {PoolWorker} from './worker'
+import {ThreadWorker} from './thread_worker'
 
 type PoolElement = {
   worker: PoolWorker,
@@ -18,6 +19,12 @@ class ThreadPool<T extends PoolWorker> {
     this.pool = [];
     this.awaiting = [];
     this.createWorker = () => new w; //Sory for this. Typescript generics makes me cry :'(
+  }
+  stop(){
+    this.pool.forEach(e => e.worker.free());
+    this.awaiting.forEach(w => w.reject(new Error('Pool stoped')));
+    this.pool = [];
+    this.awaiting = [];
   }
   run(payload: unknown): Promise<any> {
     let poolElement = this.pool.find(w => w.free);
@@ -68,5 +75,6 @@ class ThreadPool<T extends PoolWorker> {
 
 export {
   ThreadPool,
-  PoolWorker
+  PoolWorker,
+  ThreadWorker
 }
